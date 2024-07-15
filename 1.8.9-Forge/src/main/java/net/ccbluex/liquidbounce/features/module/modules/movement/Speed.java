@@ -11,9 +11,20 @@ import net.ccbluex.liquidbounce.features.module.Module;
 import net.ccbluex.liquidbounce.features.module.ModuleCategory;
 import net.ccbluex.liquidbounce.features.module.ModuleInfo;
 import net.ccbluex.liquidbounce.features.module.modules.combat.KillAura;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.antichat.AntiCheatB;
 import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.SpeedMode;
-import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.anticheat.*;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.aac.*;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.hypixel.Hypixel;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.matrix.Matrix;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.ncp.NCPBHop;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.ncp.NCPFHop;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.ncp.NCPHop;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.spartan.*;
 import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.other.*;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.verus.VerusHop;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.verus.VerusLowHop;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.vulcan.RiseVulcan;
+import net.ccbluex.liquidbounce.features.module.modules.movement.speeds.vulcan.VulcanHop;
 import net.ccbluex.liquidbounce.ui.client.hud.element.elements.Notification;
 import net.ccbluex.liquidbounce.ui.client.hud.element.elements.NotifyType;
 import net.ccbluex.liquidbounce.utils.MovementUtils;
@@ -40,6 +51,12 @@ public class Speed extends Module {
             new VerusHop(),
             new VulcanHop(),
             new RiseVulcan(),
+            new SpartanYPort(),
+            new SlowHop(),
+            new VerusLowHop(),
+            new HiveHop(),
+            new AAC5(),
+            new Hypixel(),
     };
     public final ListValue modeValue = new ListValue("Mode", getModes(), "NCPBHop") {
 

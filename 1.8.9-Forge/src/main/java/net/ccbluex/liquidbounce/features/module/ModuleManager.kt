@@ -11,6 +11,7 @@ import net.ccbluex.liquidbounce.LiquidBounce
 import net.ccbluex.liquidbounce.event.EventTarget
 import net.ccbluex.liquidbounce.event.KeyEvent
 import net.ccbluex.liquidbounce.event.Listenable
+import net.ccbluex.liquidbounce.features.module.modules.HuaYuTing.AntiVelocity
 import net.ccbluex.liquidbounce.features.module.modules.HuaYuTing.BalanceTimer
 import net.ccbluex.liquidbounce.features.module.modules.combat.*
 import net.ccbluex.liquidbounce.features.module.modules.exploit.*
@@ -84,8 +85,7 @@ class ModuleManager : Listenable {
             Fly::class.java,
             ClickGUI::class.java,
             HighJump::class.java,
-                InvMove::class.java,
-            NoSlow::class.java,
+            InvMove::class.java,
             LiquidWalk::class.java,
             SafeWalk::class.java,
             WallClimb::class.java,
@@ -202,6 +202,9 @@ class ModuleManager : Listenable {
             NewXRay::class.java,
             TargetStrafe::class.java,
             Wings::class.java,
+            NoSlow::class.java,
+            AntiVelocity::class.java,
+            NoSlowdown::class.java,
             VersionPatcher::class.java
         )
         registerModule(Rotations)

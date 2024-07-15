@@ -111,74 +111,74 @@ class NoSlow : Module() {
         }
 
 //        val heldItem = mc.thePlayer.heldItem
-            when (modeValue.get().toLowerCase()) {
-                "aac5"-> {
-                    if (event.eventState == EventState.POST && (mc.thePlayer.isUsingItem || mc.thePlayer.isBlocking || killAura.blockingStatus)) {
-                        mc.netHandler.addToSendQueue(
-                            C08PacketPlayerBlockPlacement(
-                                BlockPos(-1, -1, -1),
-                                255,
-                                mc.thePlayer.inventory.getCurrentItem(),
-                                0f,
-                                0f,
-                                0f
-                            )
+        when (modeValue.get().toLowerCase()) {
+            "aac5"-> {
+                if (event.eventState == EventState.POST && (mc.thePlayer.isUsingItem || mc.thePlayer.isBlocking || killAura.blockingStatus)) {
+                    mc.netHandler.addToSendQueue(
+                        C08PacketPlayerBlockPlacement(
+                            BlockPos(-1, -1, -1),
+                            255,
+                            mc.thePlayer.inventory.getCurrentItem(),
+                            0f,
+                            0f,
+                            0f
                         )
-                    }
-                    if (!mc.thePlayer.isBlocking && !killAura.blockingStatus) {
-                        return
-                    }
+                    )
                 }
-                "liquidbounce" -> {
-                    sendPacket(event, true, true, false, 0, false)
-                }
-                "blocksmc" ->{
-                    if(event.eventState == EventState.PRE){
-                        if(isUsingFood()){
-                            return
-                        }
-                    }
-                    if(LiquidBounce.combatManager.target != null || !mc.thePlayer.isBlocking || !PlayerUtil.isMoving() || !MovementUtils.isOnGround(0.42))
-                        return
-                    if(event.eventState == EventState.POST){
-                        if(LiquidBounce.combatManager.target != null && !mc.thePlayer.isBlocking || !PlayerUtil.isMoving() || !MovementUtils.isOnGround(0.42)){
-                            mc.netHandler.addToSendQueue(C08PacketPlayerBlockPlacement(BlockPos(-1,-1,-1),255, mc.thePlayer.inventory.getCurrentItem(), 0f, 0f, 0f))
-                        }
-                    }
-                }
-                "watchdog" -> {
-                    if(event.eventState == EventState.PRE){
-                        if(isUsingFood()){
-                            if(mc.thePlayer.itemInUseDuration >= 1){
-                                mc.netHandler.addToSendQueue(C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem))
-                            }
-                        }
-                    }
-                    if(LiquidBounce.combatManager.target != null || !mc.thePlayer.isBlocking || !PlayerUtil.isMoving() || !MovementUtils.isOnGround(0.42))
-                        return
-                    if(event.eventState == EventState.POST){
-                        if(LiquidBounce.combatManager.target != null && !mc.thePlayer.isBlocking || !PlayerUtil.isMoving() || !MovementUtils.isOnGround(0.42)){
-                            mc.netHandler.addToSendQueue(C08PacketPlayerBlockPlacement(BlockPos(-1,-1,-1),255, mc.thePlayer.inventory.getCurrentItem(), 0f, 0f, 0f))
-                        }
-                    }
-                }
-                "aac4" -> {
-                    if (mc.thePlayer.ticksExisted % 3 == 0) {
-                        sendPacket(event, true, false, false, 0, false)
-                    } else if (mc.thePlayer.ticksExisted % 3 == 1) {
-                        sendPacket(event, false, true, false, 0, false)
-                    }
-                }
-
-                "custom" -> {
-                    sendPacket(event, true, true, true, customDelayValue.get().toLong(), customOnGround.get())
-                }
-
-                "ncp" -> {
-                    sendPacket(event, true, true, false, 0, false)
+                if (!mc.thePlayer.isBlocking && !killAura.blockingStatus) {
+                    return
                 }
             }
+            "liquidbounce" -> {
+                sendPacket(event, true, true, false, 0, false)
+            }
+            "blocksmc" ->{
+                if(event.eventState == EventState.PRE){
+                    if(isUsingFood()){
+                        return
+                    }
+                }
+                if(LiquidBounce.combatManager.target != null || !mc.thePlayer.isBlocking || !PlayerUtil.isMoving() || !MovementUtils.isOnGround(0.42))
+                    return
+                if(event.eventState == EventState.POST){
+                    if(LiquidBounce.combatManager.target != null && !mc.thePlayer.isBlocking || !PlayerUtil.isMoving() || !MovementUtils.isOnGround(0.42)){
+                        mc.netHandler.addToSendQueue(C08PacketPlayerBlockPlacement(BlockPos(-1,-1,-1),255, mc.thePlayer.inventory.getCurrentItem(), 0f, 0f, 0f))
+                    }
+                }
+            }
+            "watchdog" -> {
+                if(event.eventState == EventState.PRE){
+                    if(isUsingFood()){
+                        if(mc.thePlayer.itemInUseDuration >= 1){
+                            mc.netHandler.addToSendQueue(C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem))
+                        }
+                    }
+                }
+                if(LiquidBounce.combatManager.target != null || !mc.thePlayer.isBlocking || !PlayerUtil.isMoving() || !MovementUtils.isOnGround(0.42))
+                    return
+                if(event.eventState == EventState.POST){
+                    if(LiquidBounce.combatManager.target != null && !mc.thePlayer.isBlocking || !PlayerUtil.isMoving() || !MovementUtils.isOnGround(0.42)){
+                        mc.netHandler.addToSendQueue(C08PacketPlayerBlockPlacement(BlockPos(-1,-1,-1),255, mc.thePlayer.inventory.getCurrentItem(), 0f, 0f, 0f))
+                    }
+                }
+            }
+            "aac4" -> {
+                if (mc.thePlayer.ticksExisted % 3 == 0) {
+                    sendPacket(event, true, false, false, 0, false)
+                } else if (mc.thePlayer.ticksExisted % 3 == 1) {
+                    sendPacket(event, false, true, false, 0, false)
+                }
+            }
+
+            "custom" -> {
+                sendPacket(event, true, true, true, customDelayValue.get().toLong(), customOnGround.get())
+            }
+
+            "ncp" -> {
+                sendPacket(event, true, true, false, 0, false)
+            }
         }
+    }
 
     @EventTarget
     fun onSlowDown(event: SlowDownEvent) {

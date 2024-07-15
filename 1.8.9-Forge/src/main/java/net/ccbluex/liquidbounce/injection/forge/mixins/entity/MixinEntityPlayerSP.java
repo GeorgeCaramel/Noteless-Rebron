@@ -2,6 +2,7 @@ package net.ccbluex.liquidbounce.injection.forge.mixins.entity;
 
 import net.ccbluex.liquidbounce.LiquidBounce;
 import net.ccbluex.liquidbounce.event.*;
+import net.ccbluex.liquidbounce.features.module.modules.HuaYuTing.AntiVelocity;
 import net.ccbluex.liquidbounce.features.module.modules.combat.KillAura;
 import net.ccbluex.liquidbounce.features.module.modules.movement.NoSlow;
 import net.ccbluex.liquidbounce.features.module.modules.movement.Sprint;
@@ -36,6 +37,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
+import java.util.Objects;
 
 @Mixin(EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
@@ -307,13 +309,15 @@ public abstract class MixinEntityPlayerSP extends MixinAbstractClientPlayer {
             this.setSprinting(true);
         }
 
+        final AntiVelocity antiVelocity = (AntiVelocity) LiquidBounce.moduleManager.getModule(AntiVelocity.class);
         final Scaffold scaffold = (Scaffold) LiquidBounce.moduleManager.getModule(Scaffold.class);
         if ((scaffold.getState() && !scaffold.sprintValue.get()) || (sprint.getState() && sprint.checkServerSide.get() && (onGround || !sprint.checkServerSideGround.get()) && !sprint.allDirectionsValue.get() && RotationUtils.targetRotation != null && RotationUtils.getRotationDifference(new Rotation(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch)) > 30))
             this.setSprinting(false);
 
-        if (this.isSprinting() && ((!(sprint.getState() && sprint.allDirectionsValue.get()) && this.movementInput.moveForward < f) || this.isCollidedHorizontally || !flag3)) {
+        if ((Objects.requireNonNull(antiVelocity).getAttacked() || !antiVelocity.handleEvents() || !antiVelocity.getModeValue().equals("Grim1.9+")) && this.isSprinting() && ((!(sprint.getState() && sprint.allDirectionsValue.get()) && this.movementInput.moveForward < f) || this.isCollidedHorizontally || !flag3)) {
             this.setSprinting(false);
         }
+        antiVelocity.setAttacked(false);
 
         //aac may check it :(
         if (this.capabilities.allowFlying) {
